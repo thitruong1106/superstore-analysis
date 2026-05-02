@@ -1,3 +1,13 @@
+SELECT 
+    Category, 
+    ROUND(SUM(Sales), 2) AS total_sales,
+    ROUND(SUM(Profit), 2) AS total_profit, 
+    ROUND((SUM(Profit) / NULLIF(SUM(Sales), 0)) * 100, 2) AS profit_margin_pct, 
+    RANK() OVER (ORDER BY SUM(Sales) DESC) AS sales_rank
+FROM orders 
+GROUP BY Category
+ORDER BY sales_rank;
+
 /*
 Question:
 Which product categories perform best in terms of sales, profit, and profit margin?
@@ -22,13 +32,3 @@ Business recommendation:
 Technology appears to be the best-performing category overall.
 Furniture should be investigated further because it has strong sales but a weak profit margin.
 */
-
-SELECT 
-    Category, 
-    ROUND(SUM(Sales), 2) AS total_sales,
-    ROUND(SUM(Profit), 2) AS total_profit, 
-    ROUND((SUM(Profit) / NULLIF(SUM(Sales), 0)) * 100, 2) AS profit_margin_pct, 
-    RANK() OVER (ORDER BY SUM(Sales) DESC) AS sales_rank
-FROM orders 
-GROUP BY Category
-ORDER BY sales_rank;
