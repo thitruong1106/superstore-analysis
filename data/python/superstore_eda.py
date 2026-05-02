@@ -281,3 +281,19 @@ print(top_customers)
 # Python confirms the SQL result that Sean Miller was the highest-revenue customer, with $25,043.05 in revenue across 5 orders, but -$1,980.74 in profit.
 # Python also reveals that Tamara Chand was more valuable from a profit perspective, generating $8,981.32 profit from $19,052.22 revenue across 5 orders.
 # This means customer value should be measured using both revenue and profit, not revenue alone.
+
+# ============================================================
+# What correlation does Discount and profit have
+# This block check if Higher discount relates to lower profit 
+# Correlation helps measure the relationship between Discount and Profit
+# ============================================================
+
+discount_profit_corr = df['Discount'].corr(df['Profit'])
+
+print("\n--- Discount and Profit Correlation ---")
+print(round(discount_profit_corr, 3)) 
+
+# Finding: 
+# The correlation test outputted -0.219. Meaning there is a negative relationship between Discount and profit. 
+# This reveals a weak negative relationship, meaning profit tends to decrease as discount increases. 
+# This support the implication that discount should be reviewed. Or investigate other factor that could contribute to profit. 
