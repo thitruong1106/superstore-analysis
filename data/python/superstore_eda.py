@@ -13,7 +13,7 @@ df = pd.read_csv('Sample - Superstore.csv', encoding='latin1')
 # ============================================================
 # Inspect Dataset Structure
 # This block checks data types, missing values, and a preview of the data.
-# This helps confirm whether the dataset needs cleaning before analysis.
+# This helps confirm whether the dataset needs cleaning or transformation before analysis.
 # ============================================================
 
 print("\n--- Dataset Data Types ---")
