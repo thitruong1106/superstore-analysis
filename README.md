@@ -1,6 +1,6 @@
 # Retail Performance Analysis - Superstore Dataset 
 
-An end to end analysis identifying profit drivers, loss-making segments, and discount impact across a US retail business using SQL, Python and Power BI. 
+An end to end analysis identifying profit drivers, loss-making segments, and discount impact across a US retail business using SQL, Python. 
 
 ## Project Overview 
 
