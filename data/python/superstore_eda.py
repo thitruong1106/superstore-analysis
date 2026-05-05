@@ -1,5 +1,7 @@
 import pandas as pd
-
+import matplotlib.pyplot as plt
+import os
+from pathlib import Path
 
 # ============================================================
 # Load Dataset
@@ -7,7 +9,11 @@ import pandas as pd
 # latin1 encoding is used to avoid character decoding issues.
 # ============================================================
 
-df = pd.read_csv('Sample - Superstore.csv', encoding='latin1')
+BASE_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = BASE_DIR.parent
+
+csv_path = PROJECT_ROOT / "Sample - Superstore.csv"
+df = pd.read_csv(csv_path, encoding="latin1")
 
 # Finding:
 # Python confirms the dataset loads successfully with 9,994 rows and 21 columns, matching the expected Superstore structure.
@@ -34,6 +40,36 @@ print(df.head())
 # Python also reveals that Order Date and Ship Date are stored as object columns before conversion.
 # This means date columns must be converted into datetime format before analysis.
 
+# ============================================================
+# Category Sales, Profit, and Profit Margin Check
+# This block groups the data by category and calculates total sales, total profit,
+# and profit margin to verify the SQL category analysis.
+# ============================================================
+category_performance = (
+    df.groupby('Category')
+    .agg(
+        total_sales=('Sales', 'sum'),
+        total_profit=('Profit', 'sum')
+    )
+)
+
+category_performance['profit_margin_pct'] = (
+    category_performance['total_profit'] / category_performance['total_sales'] * 100
+)
+
+category_performance = (
+    category_performance
+    .round(2)
+    .sort_values('total_sales', ascending=False)
+)
+
+print("\n--- Category Sales, Profit, and Profit Margin ---")
+print(category_performance)
+
+# Finding:
+# Python confirms the SQL result that Technology is the top category with $836,154.03 in sales, $145,454.95 in profit, and a 17.40% profit margin.
+# Python also reveals that Furniture generated $741,999.80 in sales but only $18,451.27 in profit, contributing far less profit than Technology and Office Supplies despite ranking second by revenue.
+# This means Furniture appears strong by sales but weak by profitability, so it should be reviewed for discounts, costs, or pricing issues.
 
 # ============================================================
 # Regional Sales and Profit Check
@@ -66,40 +102,6 @@ print(region_performance)
 # Python confirms the SQL result that the West region leads with $725,457.82 in sales, $108,418.45 in profit, and a 14.94% profit margin.
 # Python also reveals that Central generated higher sales than South, with $501,239.89 compared with $391,721.91, but Central had a weaker margin of 7.92% compared with South's 11.93%.
 # This means Central has healthy revenue but weaker profitability, so it should be investigated further by discount level, category, and sub-category.
-
-
-# ============================================================
-# Category Sales, Profit, and Profit Margin Check
-# This block groups the data by category and calculates total sales, total profit,
-# and profit margin to verify the SQL category analysis.
-# ============================================================
-
-category_performance = (
-    df.groupby('Category')
-    .agg(
-        total_sales=('Sales', 'sum'),
-        total_profit=('Profit', 'sum')
-    )
-)
-
-category_performance['profit_margin_pct'] = (
-    category_performance['total_profit'] / category_performance['total_sales'] * 100
-)
-
-category_performance = (
-    category_performance
-    .round(2)
-    .sort_values('total_sales', ascending=False)
-)
-
-print("\n--- Category Sales, Profit, and Profit Margin ---")
-print(category_performance)
-
-# Finding:
-# Python confirms the SQL result that Technology is the top category with $836,154.03 in sales, $145,454.95 in profit, and a 17.40% profit margin.
-# Python also reveals that Furniture generated $741,999.80 in sales but only $18,451.27 in profit, contributing far less profit than Technology and Office Supplies despite ranking second by revenue.
-# This means Furniture appears strong by sales but weak by profitability, so it should be reviewed for discounts, costs, or pricing issues.
-
 
 # ============================================================
 # Central Region Sub-Category Profitability Check
@@ -294,6 +296,91 @@ print("\n--- Discount and Profit Correlation ---")
 print(round(discount_profit_corr, 3)) 
 
 # Finding: 
-# The correlation test outputted -0.219. Meaning there is a negative relationship between Discount and profit. 
-# This reveals a weak negative relationship, meaning profit tends to decrease as discount increases. 
-# This support the implication that discount should be reviewed. Or investigate other factor that could contribute to profit. 
+# The correlation of -0.219 suggests that higher discounts are linked to lower profit, but the relationship is not very strong. 
+# However, discount is not the only reason profit changes, because other factors such as product category, shipping cost, and region may also affect profit.
+# This means discount alone should not be the focus of a profitability review
+# However, medium and high discount orders generated almost $135,000 in total losses, even though most transactions had low or no discount.
+# This means discounting is not a widespread issue across all orders, but discounts above 20% have a severe impact on profitability.
+
+os.makedirs("visuals", exist_ok=True)
+
+# ============================================================
+# This block create a horizontal bar chart for category based on profit margin performance
+# ============================================================
+
+category_performance = category_performance.sort_values(by="profit_margin_pct")
+plt.figure(figsize=(8, 5))
+
+plt.barh(
+    category_performance.index,
+    category_performance["profit_margin_pct"]
+)
+
+plt.xlabel("Profit Margin %")
+plt.ylabel("Category")
+plt.title("Profit Margin by Category")
+
+plt.tight_layout()
+plt.savefig('visuals/01_category_performance_margin.png', dpi=150, bbox_inches='tight')
+
+# ============================================================
+# Line chart showing total profit by month over time
+# ============================================================
+# Convert year+month to a string 
+monthly_trend["YearMonth"] = pd.to_datetime(
+    monthly_trend["Year"].astype(str) + "-" + monthly_trend["Month"].astype(str),
+    format="%Y-%m"
+)
+#sort so it display in orders of year and month 
+monthly_trend = monthly_trend.sort_values("YearMonth")
+plt.figure(figsize=(10, 5))
+plt.plot(monthly_trend['YearMonth'], monthly_trend['total_profit'])
+plt.xlabel("Month")
+plt.ylabel("Total profit")
+plt.title("Monthly Profit Trends")
+plt.xticks(rotation=45)
+plt.tight_layout()
+# Draw a horizontal line at the 0 value, the colour of the line is black, and the width of line is 1 
+plt.axhline(0, color='black', linewidth=1)
+plt.savefig('visuals/monthy_trends.png', dpi=150, bbox_inches='tight')
+
+# ============================================================
+# Bar chart showing average profit by discount tier
+# Green = profitable, red = loss-making
+# ============================================================
+#Discount vs profit 
+plt.figure(figsize=(8, 5))
+# add colour s
+colors = [
+    "green" if profit > 0 else "red"
+    for profit in discount_analysis["average_profit"]
+]
+plt.bar(
+    discount_analysis.index, 
+    discount_analysis['average_profit'], 
+    color = colors
+)
+
+# Draws a horizontal line at zero, so we can see which discount is profitable and which is losing money 
+plt.xlabel('Discount tier')
+plt.ylabel('Average profit')
+plt.title('Average profit based on discount tier')
+# Draws a horizontal line at zero, so we can see which discount is profitable and which is losing money 
+plt.axhline(0, color="black", linewidth=1)
+plt.savefig('visuals/average_profit_by_discount.png', dpi=150, bbox_inches='tight')
+
+# ============================================================
+# Scatter plot based on discount vs profit at indivual order level
+# ============================================================
+
+plt.figure(figsize=(8, 5))
+plt.scatter(df["Discount"], df["Profit"], alpha=0.4)
+
+plt.xlabel("Discount")
+plt.ylabel("Profit")
+plt.title("Discount vs Profit")
+
+plt.axhline(0, color="black", linewidth=1)
+
+plt.tight_layout()
+plt.savefig('visuals/discount_vs_profit.png', dpi=150, bbox_inches='tight')
