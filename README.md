@@ -71,3 +71,7 @@ Tamara Chand generated slightly lower revenue at $19,052.22, also across 5 order
 This shows that customer value should be measured using both revenue and profit, not just revenue alone. 
 
 
+## Visualisations
+
+[embed your four chart images here using markdown image syntax]
+![Category Profit Margin](visuals/01_category_profit_margin.png)
