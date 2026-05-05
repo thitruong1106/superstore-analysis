@@ -342,7 +342,7 @@ plt.xticks(rotation=45)
 plt.tight_layout()
 # Draw a horizontal line at the 0 value, the colour of the line is black, and the width of line is 1 
 plt.axhline(0, color='black', linewidth=1)
-plt.savefig('visuals/monthy_trends.png', dpi=150, bbox_inches='tight')
+plt.savefig('visuals/02_monthly_profit_trend.png', dpi=150, bbox_inches='tight')
 
 # ============================================================
 # Bar chart showing average profit by discount tier
@@ -367,7 +367,7 @@ plt.ylabel('Average profit')
 plt.title('Average profit based on discount tier')
 # Draws a horizontal line at zero, so we can see which discount is profitable and which is losing money 
 plt.axhline(0, color="black", linewidth=1)
-plt.savefig('visuals/average_profit_by_discount.png', dpi=150, bbox_inches='tight')
+plt.savefig('visuals/03_discount_tier_profit.png', dpi=150, bbox_inches='tight')
 
 # ============================================================
 # Scatter plot based on discount vs profit at indivual order level
@@ -383,4 +383,4 @@ plt.title("Discount vs Profit")
 plt.axhline(0, color="black", linewidth=1)
 
 plt.tight_layout()
-plt.savefig('visuals/discount_vs_profit.png', dpi=150, bbox_inches='tight')
+plt.savefig('visuals/04_discount_vs_profit_scatter.png', dpi=150, bbox_inches='tight')
