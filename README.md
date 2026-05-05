@@ -15,3 +15,9 @@ This project analyses 9,994 retail transaction across four US regions to identif
 ## Key Findings
 
 ### 1. Technology is the strongest category 
+
+Technology was the best performing category in terms of sales, generating $836,154.03 in sales and $145,454.95 in profit, with a 17.40% profit margin.
+
+Furniture ranked second in sales with $741,999.80, but only produced $18,451.27 in profit. Its profit margin is much weaker at 2.49% 
+
+This shows that although Furniture generates strong revenue, but does not convert those sales into profit efficiently. 
