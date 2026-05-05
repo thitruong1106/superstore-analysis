@@ -12,6 +12,11 @@ This project analyses 9,994 retail transactions across four US regions to identi
 * Python — Pandas EDA with cross-validation against SQL results, Matplotlib visualisations, and correlation analysis
 * Power BI — interactive dashboard (in progress)
 
+## Project Structure
+- `sql/` — 7 SQL queries with business findings
+- `python/` — Pandas EDA script with Matplotlib visualisations
+- `visuals/` — exported chart images
+  
 ## Key Findings
 
 ### 1. Central region had healthy sales but weak profitability. 
