@@ -12,28 +12,6 @@ This project analyses 9,994 retail transactions across four US regions to identi
 * Python — Pandas EDA with cross-validation against SQL results, Matplotlib visualisations, and correlation analysis
 * Power BI — interactive dashboard (in progress)
 
-## Project Structure
-
-superstore-analysis/
-├── README.md
-├── data/
-│   └── superstore.csv
-├── sql/
-│   ├── 01_category_performance.sql
-│   ├── 02_monthly_trends.sql
-│   ├── 03_top_products.sql
-│   ├── 04_regional_breakdown.sql
-│   ├── 05_central_deep_dive.sql
-│   ├── 06_discount_analysis.sql
-│   └── 07_customer_segments.sql
-├── python/
-│   └── superstore_eda.py
-└── visuals/
-    ├── 01_category_profit_margin.png
-    ├── 02_monthly_profit_trend.png
-    ├── 03_discount_tier_profit.png
-    └── 04_discount_vs_profit_scatter.png
-
 ## Key Findings
 
 ### 1. Central region had healthy sales but weak profitability. 
