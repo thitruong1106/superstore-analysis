@@ -73,5 +73,14 @@ This shows that customer value should be measured using both revenue and profit,
 
 ## Visualisations
 
-[embed your four chart images here using markdown image syntax]
-![Category Profit Margin](visuals/01_category_profit_margin.png)
+### Category Profit Margin
+![Category Profit Margin](visuals/01_category_performance_margin.png)
+
+### Monthly Profit Trend
+![Monthly Profit Trend](visuals/02_monthly_profit_trend.png)
+
+### Discount Tier Profit
+![Discount Tier Profit](visuals/03_discount_tier_profit.png)
+
+### Discount vs Profit Scatter Plot
+![Discount vs Profit Scatter Plot](visuals/04_discount_vs_profit_scatter.png)
