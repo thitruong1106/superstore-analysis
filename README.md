@@ -67,3 +67,10 @@ This shows that customer value should be measured using both revenue and profit,
 
 ### Discount vs Profit Scatter Plot
 ![Discount vs Profit Scatter Plot](visuals/04_discount_vs_profit_scatter.png)
+
+## Dashboard
+
+![Retail Performance Analysis Dashboard](visuals/dashboard.png)
+
+Interactive Power BI dashboard filtering by region to isolate 
+performance issues across category, geography, and discount behaviour.
