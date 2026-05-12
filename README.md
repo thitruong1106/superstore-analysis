@@ -10,7 +10,7 @@ This project analyses 9,994 retail transactions across four US regions to identi
 
 * SQL — 7 business queries covering category performance, regional breakdown, discount analysis, customer segmentation, and product ranking
 * Python — Pandas EDA with cross-validation against SQL results, Matplotlib visualisations, and correlation analysis
-* Power BI — interactive dashboard (in progress)
+* Power BI — interactive dashboard with DAX measures, conditional formatting, and region slicer
 
 ## Project Structure
 - `sql/` — 7 SQL queries with business findings
